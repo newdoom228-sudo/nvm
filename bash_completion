@@ -1,6 +1,7 @@
-#!/usr/bin/env bash
-
-# bash completion for Node Version Manager (NVM)
+mkdir backend
+cd backend
+npm init -y
+npm install express axios dotenv cors
 
 if ! command -v nvm &> /dev/null; then
   return
