@@ -24,3 +24,9 @@ package-lock.json
 yarn.lock
 
 target/
+
+# Claude Code skills and content projects (the v* rule above would hide viral-hook-writer, video.md, etc.)
+!/.claude/**
+
+# Content projects (see CLAUDE.md)
+!/projects/**

@@ -33,3 +33,7 @@ insert_final_newline = off
 
 [test/fixtures/actual/alias/empty]
 insert_final_newline = off
+
+[.claude/skills/**]
+indent_size = false
+trim_trailing_whitespace = false
