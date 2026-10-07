@@ -61,12 +61,12 @@
   .art .ph { display:flex; gap:14px; width:100%; height:100%; }
   .art .ph img { flex:1; min-width:0; height:100%; object-fit:cover; }
   .credit { position:absolute; left:0; top:782px; font-family:'JetBrains Mono'; font-size:18px; color:var(--faint); letter-spacing:0.04em; white-space:nowrap; }
-  .portrait { display:none; position:absolute; right:100px; top:100px; width:400px; height:480px; object-fit:cover; object-position:50% 20%; filter:grayscale(1) contrast(1.12); }
-  .portrait-credit { left:auto; right:100px; top:584px; width:400px; white-space:normal; text-align:right; font-size:15px; }
+  .portrait { display:none; position:absolute; right:90px; top:90px; width:420px; height:500px; object-fit:contain; object-position:50% 100%; filter:grayscale(1) contrast(1.15); }
+  .portrait-credit { left:auto; right:100px; top:600px; width:420px; white-space:normal; text-align:right; font-size:15px; }
   .has-portrait .portrait { display:block; }
   .has-portrait .num { top:420px; right:430px; font-size:190px; -webkit-text-stroke:3px var(--red); text-shadow:0 0 10px #fff; z-index:2; }
-  .has-portrait .who { top:622px; font-size:30px; }
-  .has-portrait .tag { margin-top:90px; }
+  .has-portrait .who { top:648px; font-size:30px; }
+  .has-portrait .tag { margin-top:110px; }
   .tag { position:absolute; font-size:118px; transform:rotate(-3deg); text-shadow:0 0 12px #fff, 0 0 4px #fff; }
   .after { position:absolute; left:var(--col); right:var(--m); top:1570px; }
   svg { display:block; }
@@ -279,10 +279,10 @@ const art = {
     const capsule = (x, y, red) => {
       const f = red ? RED : '#fff';
       return `<path d="M${x} ${y} l${d} -${d} h${s} l-${d} ${d} Z" fill="#eee" ${S} stroke-width="2"/>`+
-             `<path d="M${x+s} ${y} l${d} -${d} v${s} l-${d} ${d} Z" fill="url(#hatchInk)" ${S} stroke-width="2"/>`+
-             `<rect x="${x}" y="${y}" width="${s}" height="${s}" fill="${f}" ${S} stroke-width="2.5"/>`+
-             `<circle cx="${x+s/2}" cy="${y+s/2}" r="22" fill="#fff" ${S} stroke-width="2.5"/>`+
-             `<path d="M${x+s/2-22} ${y+s/2} H${x+s/2+22} M${x+s/2} ${y+s/2-22} V${y+s/2+22}" stroke="${INK}" stroke-width="1.2"/>`;
+              `<path d="M${x+s} ${y} l${d} -${d} v${s} l-${d} ${d} Z" fill="url(#hatchInk)" ${S} stroke-width="2"/>`+
+              `<rect x="${x}" y="${y}" width="${s}" height="${s}" fill="${f}" ${S} stroke-width="2.5"/>`+
+              `<circle cx="${x+s/2}" cy="${y+s/2}" r="22" fill="#fff" ${S} stroke-width="2.5"/>`+
+              `<path d="M${x+s/2-22} ${y+s/2} H${x+s/2+22} M${x+s/2} ${y+s/2-22} V${y+s/2+22}" stroke="${INK}" stroke-width="1.2"/>`;
     };
     // cores
     b += `<rect x="470" y="40" width="80" height="${G-40}" fill="#fff" ${S}/><rect x="660" y="80" width="80" height="${G-80}" fill="#fff" ${S}/>`;

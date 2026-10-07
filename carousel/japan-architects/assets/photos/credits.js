@@ -3,5 +3,7 @@ window.CREDITS = {
   "tokyo-station":   "掬茶 / CC BY-SA 3.0 / WIKIMEDIA COMMONS",
   "yoyogi":          "KAKIDAI / CC BY-SA 4.0 / WIKIMEDIA COMMONS",
   "nakagin":         "NESNAD / CC BY 3.0 · KAKIDAI / CC BY-SA 4.0 / WIKIMEDIA COMMONS",
-  "church-of-light": "BERGMANN / CC BY-SA 3.0 / WIKIMEDIA COMMONS"
+  "church-of-light": "BERGMANN / CC BY-SA 3.0 / WIKIMEDIA COMMONS",
+  "grand-ring":      "BEA PHI / CC BY-SA 4.0 / WIKIMEDIA COMMONS",
+  "tange":           "HANS VAN DIJK / ANEFO / CC BY-SA 3.0 NL"
 };
