@@ -5,37 +5,70 @@
 <title>Japan Architects Carousel</title>
 <link href="https://fonts.googleapis.com/css2?family=Neucha&family=Noto+Serif+JP:wght@700&family=JetBrains+Mono:wght@500;700&display=block" rel="stylesheet">
 <style>
-  :root { --red:#E3172B; --ink:#111; --grey:#9a9a9a; }
+  /* Tokens: one accent, one grey family, two grid lines (see DESIGN.md) */
+  :root {
+    --red:#E3172B; --ink:#111; --muted:#555; --faint:#767676;
+    --m:115px;      /* outer margin, left and right */
+    --col:415px;    /* text column: body copy, photos, captions */
+  }
   * { box-sizing:border-box; margin:0; padding:0; }
   body { background:#ddd; display:flex; flex-direction:column; gap:40px; align-items:center; padding:40px 0; }
   .slide { width:1818px; height:2000px; position:relative; background:#fff; overflow:hidden; }
+  img { display:block; }
+  h1, h2 { font-weight:400; }
 
-  .hand { font-family:'Neucha', cursive; color:var(--red); -webkit-text-stroke:2.5px var(--red); text-transform:uppercase; line-height:1; letter-spacing:-0.01em; }
-  .mono { font-family:'JetBrains Mono', monospace; font-weight:500; color:var(--ink); text-transform:uppercase; font-size:40px; line-height:1.42; letter-spacing:0.03em; }
-  .mono .hand { font-size:58px; -webkit-text-stroke:1.5px var(--red); letter-spacing:0; }
+  .hand { font-family:'Neucha', cursive; color:var(--red); -webkit-text-stroke:2.5px var(--red); text-transform:uppercase; line-height:1; letter-spacing:-0.01em; text-wrap:balance; }
+  .mono { font-family:'JetBrains Mono', monospace; font-weight:500; color:var(--ink); text-transform:uppercase; font-size:44px; line-height:1.42; letter-spacing:0.03em; text-wrap:pretty; }
+  .mono .hand { font-size:62px; -webkit-text-stroke:1.5px var(--red); letter-spacing:0; }
   .mono b { font-weight:700; }
   .jp { font-family:'Noto Serif JP', serif; font-weight:700; color:var(--red); text-transform:none; }
   .abs { position:absolute; }
 
   .logo { position:absolute; left:58px; bottom:38px; width:312px; mix-blend-mode:multiply; }
-  .quip { position:absolute; right:90px; bottom:70px; font-size:66px; -webkit-text-stroke:1.5px var(--red); text-align:right; }
-  .counter { position:absolute; right:96px; top:64px; font-family:'JetBrains Mono'; font-size:28px; color:var(--grey); letter-spacing:0.12em; }
+  .quip { position:absolute; right:var(--m); bottom:70px; font-size:66px; -webkit-text-stroke:1.5px var(--red); text-align:right; }
+  .counter { position:absolute; right:var(--m); top:64px; font-family:'JetBrains Mono'; font-size:28px; color:var(--faint); letter-spacing:0.12em; }
+  .title { position:absolute; left:var(--m); top:150px; font-size:120px; }
+  .body { position:absolute; left:var(--col); top:340px; width:1060px; }
+
+  /* 01 cover */
+  .cover-kicker { left:0; right:0; top:90px; text-align:center; font-size:52px; letter-spacing:0.12em; }
+  .cover-enso { left:259px; top:330px; }
+  .cover-title { left:0; right:0; top:470px; text-align:center; font-size:330px; -webkit-text-stroke:5px var(--red); }
+  .cover-fact { left:0; right:0; text-align:center; font-size:120px; color:var(--ink); -webkit-text-stroke:3px var(--ink); }
+  .cover-years { left:0; right:0; top:1130px; text-align:center; font-size:48px; letter-spacing:0.08em; }
+  .cover-head { left:110px; bottom:40px; width:620px; mix-blend-mode:multiply; }
+  /* kept inside the 3:4 profile-grid crop (x 159..1659) */
+  .cover-lead { right:170px; top:1360px; width:820px; }
+  #s1 .quip { right:170px; }
+
+  /* 08 outro */
+  #s8 .title { font-size:130px; }
+  #s8 .body { top:360px; }
+  .vesper { right:40px; bottom:0; width:640px; mix-blend-mode:multiply; }
+  .vesper-line { right:600px; top:1180px; font-size:76px; -webkit-text-stroke:1.5px var(--red); text-align:right; }
+  .giorno-big { left:70px; bottom:40px; width:420px; mix-blend-mode:multiply; }
+  .cta { left:520px; bottom:250px; font-size:66px; -webkit-text-stroke:1.5px var(--red); }
+  .cta-save { left:520px; bottom:90px; font-size:32px; color:var(--muted); }
 
   /* architect slide template */
-  .num { position:absolute; right:110px; top:150px; font-size:330px; -webkit-text-stroke:4px var(--red); }
-  .who { position:absolute; right:112px; top:500px; text-align:right; font-size:34px; }
-  .lead { position:absolute; left:115px; top:150px; width:1060px; }
-  .art { position:absolute; left:300px; top:760px; width:1210px; height:770px; }
+  .num { position:absolute; right:var(--m); top:150px; font-size:330px; -webkit-text-stroke:4px var(--red); }
+  .who { position:absolute; right:var(--m); top:500px; text-align:right; font-size:34px; }
+  .lead { position:absolute; left:var(--m); top:150px; width:1060px; }
+  /* photo frame spans the text column to the right margin, 1288×770 */
+  .art { position:absolute; left:var(--col); right:var(--m); top:740px; height:770px; }
+  .art svg { width:100%; height:100%; }
+  .art[data-art=church] svg { background:var(--ink); }  /* letterbox the dark drawing in its own colour */
   .art .ph { display:flex; gap:14px; width:100%; height:100%; }
-  .art .ph img { flex:1; min-width:0; height:100%; object-fit:cover; display:block; }
-  .credit { position:absolute; left:0; top:782px; font-family:'JetBrains Mono'; font-size:18px; color:#999; letter-spacing:0.04em; white-space:nowrap; }
+  .art .ph img { flex:1; min-width:0; height:100%; object-fit:cover; }
+  .credit { position:absolute; left:0; top:782px; font-family:'JetBrains Mono'; font-size:18px; color:var(--faint); letter-spacing:0.04em; white-space:nowrap; }
   .portrait { display:none; position:absolute; right:100px; top:100px; width:400px; height:480px; object-fit:cover; object-position:50% 20%; filter:grayscale(1) contrast(1.12); }
+  .portrait-credit { left:auto; right:100px; top:584px; width:400px; white-space:normal; text-align:right; font-size:15px; }
   .has-portrait .portrait { display:block; }
-  .has-portrait .num { right:auto; left:auto; top:420px; right:430px; font-size:190px; -webkit-text-stroke:3px var(--red); text-shadow:0 0 10px #fff; z-index:2; }
+  .has-portrait .num { top:420px; right:430px; font-size:190px; -webkit-text-stroke:3px var(--red); text-shadow:0 0 10px #fff; z-index:2; }
   .has-portrait .who { top:622px; font-size:30px; }
   .has-portrait .tag { margin-top:90px; }
   .tag { position:absolute; font-size:118px; transform:rotate(-3deg); text-shadow:0 0 12px #fff, 0 0 4px #fff; }
-  .after { position:absolute; left:415px; top:1590px; width:1110px; font-size:38px; }
+  .after { position:absolute; left:var(--col); right:var(--m); top:1570px; }
   svg { display:block; }
 </style>
 </head>
@@ -43,14 +76,14 @@
 
 <!-- 01 COVER -->
 <section class="slide" id="s1">
-  <div class="mono abs" style="left:0;right:0;top:90px;text-align:center;font-size:52px;letter-spacing:0.12em">ИЛИ КАК ВЛЮБИТЬСЯ В ПУСТОТУ</div>
-  <div class="abs" style="left:259px;top:330px" id="enso"></div>
-  <div class="hand abs" style="left:0;right:0;top:470px;text-align:center;font-size:330px;-webkit-text-stroke:5px var(--red)">ЯПОНИЯ</div>
-  <div class="hand abs" style="left:0;right:0;top:820px;text-align:center;font-size:120px;color:var(--ink);-webkit-text-stroke:3px var(--ink)">5 АРХИТЕКТОРОВ</div>
-  <div class="hand abs" style="left:0;right:0;top:950px;text-align:center;font-size:120px;color:var(--ink);-webkit-text-stroke:3px var(--ink)">200 ЛЕТ</div>
-  <div class="mono abs" style="left:0;right:0;top:1130px;text-align:center;font-size:48px;letter-spacing:0.08em">1800 → 2026</div>
-  <img src="assets/giorno.png" class="abs" style="left:110px;bottom:40px;width:620px;mix-blend-mode:multiply">
-  <div class="mono abs" style="right:110px;top:1360px;width:860px;font-size:40px">
+  <div class="mono abs cover-kicker">ИЛИ КАК ВЛЮБИТЬСЯ В ПУСТОТУ</div>
+  <div class="abs cover-enso" id="enso" aria-hidden="true"></div>
+  <h1 class="hand abs cover-title">ЯПОНИЯ</h1>
+  <div class="hand abs cover-fact" style="top:820px">5 АРХИТЕКТОРОВ</div>
+  <div class="hand abs cover-fact" style="top:950px">200 ЛЕТ</div>
+  <div class="mono abs cover-years">1800 → 2026</div>
+  <img src="assets/giorno.png" class="abs cover-head" alt="Джорно, лого-голова «Архитектурной духоты»">
+  <div class="mono abs cover-lead">
     ОТ КОПИИ ЕВРОПЕЙСКОГО КИРПИЧА<br>ДО КРУПНЕЙШЕГО ДЕРЕВЯННОГО<br>СООРУЖЕНИЯ В МИРЕ.<br><br>ЛИСТАЙ →
   </div>
   <div class="hand quip">— А Я ДУМАЛ, ЭТО ПРОСТО БЕТОН</div>
@@ -59,16 +92,16 @@
 <!-- 02 CONTEXT / TIMELINE -->
 <section class="slide" id="s2">
   <div class="counter">02 / 08</div>
-  <div class="hand abs" style="left:115px;top:150px;font-size:120px">ДО ТОГО КАК ВСЁ НАЧАЛОСЬ</div>
-  <div class="mono abs" style="left:415px;top:340px;width:1060px">
+  <h2 class="hand title">ДО ТОГО КАК ВСЁ НАЧАЛОСЬ</h2>
+  <div class="mono body">
     <span class="hand">1800 ГОД.</span> ЯПОНИЯ ЗАКРЫТА ОТ МИРА УЖЕ 160 ЛЕТ. ДЕРЕВО, БУМАГА, РАЗДВИЖНЫЕ СТЕНЫ И <span class="jp">間</span> — «МА»: ПУСТОТА МЕЖДУ ВЕЩАМИ, КОТОРАЯ ВАЖНЕЕ САМИХ ВЕЩЕЙ.<br><br>
     <span class="hand">1853.</span> ЧЁРНЫЕ КОРАБЛИ КОММОДОРА ПЕРРИ.<br>
     <span class="hand">1868.</span> РЕВОЛЮЦИЯ МЭЙДЗИ.<br>
     <span class="hand">1877.</span> В ТОКИО ПРИЕЗЖАЕТ БРИТАНЕЦ ДЖОСАЙЯ КОНДОР — УЧИТЬ ПЕРВЫХ ЯПОНСКИХ АРХИТЕКТОРОВ.<br><br>
     ДАЛЬШЕ — 5 ИМЁН И 150 ЛЕТ, ЗА КОТОРЫЕ УЧЕНИК ПЕРЕРОС УЧИТЕЛЯ.
   </div>
-  <div class="abs" style="left:110px;top:1270px" id="timeline"></div>
-  <img src="assets/giorno.png" class="logo">
+  <div class="abs" style="left:110px;top:1270px" id="timeline" role="img" aria-label="Таймлайн 1800–2026: Тацуно 1914, Тангэ 1964, Курокава 1972, Андо 1989, Фудзимото 2025"></div>
+  <img src="assets/giorno.png" class="logo" alt="">
   <div class="hand quip">— ЛИСТАЙ, БУДЕТ ДУШНО</div>
 </section>
 
@@ -82,7 +115,7 @@
   <img class="portrait" data-portrait="tatsuno" alt="">
   <div class="hand tag" style="right:70px;top:640px">ТОКИЙСКИЙ<br>&nbsp;&nbsp;ВОКЗАЛ</div>
   <div class="mono after">ЯПОНИЯ ДОКАЗЫВАЕТ ЗАПАДУ, ЧТО ВЫУЧИЛА ЕГО ЯЗЫК. В 1945-М КУПОЛА СГОРЕЛИ ПРИ БОМБАРДИРОВКЕ, В 2012-М ИХ ВЕРНУЛИ ПО ИСХОДНЫМ ЧЕРТЕЖАМ ТАЦУНО.</div>
-  <img src="assets/giorno.png" class="logo">
+  <img src="assets/giorno.png" class="logo" alt="">
   <div class="hand quip">— ВЫУЧИЛ ЯЗЫК, НО С АКЦЕНТОМ</div>
 </section>
 
@@ -95,7 +128,7 @@
   <img class="portrait" data-portrait="tange" alt="">
   <div class="hand tag" style="right:90px;top:660px">АРЕНА ЁЁГИ</div>
   <div class="mono after">МОДЕРНИЗМ, НО УЖЕ С ЯПОНСКИМ ГОЛОСОМ. ДО ЭТОГО ТАНГЭ ПОСТРОИЛ МУЗЕЙ МИРА В ХИРОСИМЕ. В 1987-М — ПЕРВЫЙ ЯПОНСКИЙ ПРИТЦКЕР.</div>
-  <img src="assets/giorno.png" class="logo">
+  <img src="assets/giorno.png" class="logo" alt="">
   <div class="hand quip">— КРЫША, КОТОРАЯ ВИСИТ</div>
 </section>
 
@@ -108,7 +141,7 @@
   <img class="portrait" data-portrait="kurokawa" alt="">
   <div class="hand tag" style="right:50px;top:650px">НАКАГИН<br>&nbsp;&nbsp;КАПСУЛ ТАУЭР</div>
   <div class="mono after">КАПСУЛЫ ПЛАНИРОВАЛИ МЕНЯТЬ РАЗ В 25 ЛЕТ. НЕ ПОМЕНЯЛИ НИ ОДНОЙ. В 2022-М БАШНЮ РАЗОБРАЛИ, ЧАСТЬ КАПСУЛ СПАСЛИ И ОТРЕСТАВРИРОВАЛИ ДЛЯ МУЗЕЕВ.</div>
-  <img src="assets/giorno.png" class="logo">
+  <img src="assets/giorno.png" class="logo" alt="">
   <div class="hand quip">— БУДУЩЕЕ БЕЗ ОБНОВЛЕНИЙ</div>
 </section>
 
@@ -121,7 +154,7 @@
   <img class="portrait" data-portrait="ando" alt="">
   <div class="hand tag" style="right:110px;top:660px">ЦЕРКОВЬ СВЕТА</div>
   <div class="mono after">АНДО МЕЧТАЛ УБРАТЬ ИЗ КРЕСТА СТЕКЛО, ЧТОБЫ ВНУТРЬ ЗАХОДИЛ ВЕТЕР. БЮДЖЕТ БЫЛ МИЗЕРНЫЙ — ОН СДЕЛАЛ ИЗ ЭТОГО МАНИФЕСТ. 1995 — ПРИТЦКЕР.</div>
-  <img src="assets/giorno.png" class="logo">
+  <img src="assets/giorno.png" class="logo" alt="">
   <div class="hand quip">— МИНИМАЛИЗМ МНЕ НЕ ПО КАРМАНУ</div>
 </section>
 
@@ -134,29 +167,29 @@
   <img class="portrait" data-portrait="fujimoto" alt="">
   <div class="hand tag" style="right:60px;top:650px">БОЛЬШОЕ<br>&nbsp;&nbsp;КОЛЬЦО</div>
   <div class="mono after">КНИГА ГИННЕССА: КРУПНЕЙШЕЕ ДЕРЕВЯННОЕ СООРУЖЕНИЕ В МИРЕ. КРУГ ЗАМКНУЛСЯ — ОТ ЧУЖОГО КИРПИЧА К СОБСТВЕННОМУ ДЕРЕВУ. ЧАСТЬ КОЛЬЦА РЕШИЛИ СОХРАНИТЬ.</div>
-  <img src="assets/giorno.png" class="logo">
+  <img src="assets/giorno.png" class="logo" alt="">
   <div class="hand quip">— 200 ЛЕТ, ЧТОБЫ ВЕРНУТЬСЯ К ДЕРЕВУ</div>
 </section>
 
 <!-- 08 OUTRO -->
 <section class="slide" id="s8">
   <div class="counter">08 / 08</div>
-  <div class="hand abs" style="left:115px;top:150px;font-size:130px">ЧТО ЗАБРАТЬ С СОБОЙ</div>
-  <div class="mono abs" style="left:415px;top:360px;width:1060px">
+  <h2 class="hand title">ЧТО ЗАБРАТЬ С СОБОЙ</h2>
+  <div class="mono body">
     <span class="hand">01.</span> СНАЧАЛА ВЫУЧИ ЧУЖОЙ ЯЗЫК — ПОТОМ ЗАГОВОРИ СВОИМ. <b>ТАЦУНО → ТАНГЭ</b><br><br>
     <span class="hand">02.</span> БУДУЩЕЕ СТАРЕЕТ БЫСТРЕЕ ВСЕГО. ТРАДИЦИЯ — НЕТ. <b>КУРОКАВА → ФУДЗИМОТО</b><br><br>
     <span class="hand">03.</span> ПУСТОТА — ТОЖЕ МАТЕРИАЛ. И САМЫЙ ДЕШЁВЫЙ. <b>АНДО</b>
   </div>
-  <img src="assets/vesper.png" class="abs" style="right:40px;bottom:0;width:640px;mix-blend-mode:multiply">
-  <div class="hand abs" style="right:600px;top:1180px;font-size:76px;-webkit-text-stroke:1.5px var(--red);text-align:right">— А В МОСКВЕ<br>ТАК МОЖНО?</div>
-  <img src="assets/giorno.png" class="abs" style="left:70px;bottom:40px;width:420px;mix-blend-mode:multiply">
-  <div class="hand abs" style="left:520px;bottom:250px;font-size:66px;-webkit-text-stroke:1.5px var(--red)">— ПОГОВОРИМ<br>В КОММЕНТАРИЯХ</div>
-  <div class="mono abs" style="left:520px;bottom:90px;font-size:32px;color:#555">СОХРАНИ, ЧТОБЫ ДУШНИТЬ<br>НА СВИДАНИИ</div>
+  <img src="assets/vesper.png" class="abs vesper" alt="Vesper, «Москвичка»">
+  <div class="hand abs vesper-line">— А В МОСКВЕ<br>ТАК МОЖНО?</div>
+  <img src="assets/giorno.png" class="abs giorno-big" alt="Джорно">
+  <div class="hand abs cta">— ПОГОВОРИМ<br>В КОММЕНТАРИЯХ</div>
+  <div class="mono abs cta-save">СОХРАНИ, ЧТОБЫ ДУШНИТЬ<br>НА СВИДАНИИ</div>
 </section>
 
 <script src="assets/photos/credits.js"></script>
 <script>
-const RED='#E3172B', INK='#111';
+const RED='#E3172B', INK='#111', FAINT='#767676', MUTED='#555';
 const defs = `<defs>
   <filter id="rough" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="3.5"/></filter>
   <filter id="brush" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="3" seed="2"/><feDisplacementMap in="SourceGraphic" scale="16"/></filter>
@@ -165,7 +198,7 @@ const defs = `<defs>
   <pattern id="hatchInk" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)"><path d="M0 0V10" stroke="${INK}" stroke-width="1.4" opacity=".55"/></pattern>
   <linearGradient id="beam" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
 </defs>`;
-const svg = (w,h,body,plain='') => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">${defs}<g filter="url(#rough)" stroke-linecap="round" stroke-linejoin="round">${body}</g>${plain}</svg>`;
+const svg = (w,h,body,plain='') => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMinYMid meet" xmlns="http://www.w3.org/2000/svg">${defs}<g filter="url(#rough)" stroke-linecap="round" stroke-linejoin="round">${body}</g>${plain}</svg>`;
 const S = `stroke="${INK}" stroke-width="3" fill="none"`;
 
 // seeded random
@@ -203,7 +236,7 @@ const art = {
     b += `<path d="M0 ${G} H1200" ${S} stroke-width="4"/>`;
     b += `<path d="M10 ${G+40} H1190" stroke="${INK}" stroke-width="1.5" stroke-dasharray="40 26"/>`;
     for (const x of [330, 352, 760, 790, 1180]) b += `<circle cx="${x}" cy="${G-28}" r="6" ${S} stroke-width="2"/><path d="M${x} ${G-22} V${G-6} M${x-6} ${G} L${x} ${G-6} L${x+6} ${G}" ${S} stroke-width="2"/>`;
-    const t = `<text x="40" y="735" font-family="JetBrains Mono" font-size="20" fill="#777" letter-spacing="2">ФАСАД МАРУНОУТИ · 335 М · 1914 / 2012</text>`;
+    const t = `<text x="40" y="735" font-family="JetBrains Mono" font-size="20" fill="${FAINT}" letter-spacing="2">ФАСАД МАРУНОУТИ · 335 М · 1914 / 2012</text>`;
     return svg(1210, 770, b, t);
   },
 
@@ -235,7 +268,7 @@ const art = {
     for (let x = 230; x < 1000; x += 70) b += `<path d="M${x} ${G-2} V${G-60+Math.abs(600-x)/12}" stroke="${INK}" stroke-width="2"/>`;
     b += `<path d="M0 ${G} H1210" ${S} stroke-width="4"/>`;
     for (const x of [300, 322, 870, 900]) b += `<circle cx="${x}" cy="${G-28}" r="6" ${S} stroke-width="2"/><path d="M${x} ${G-22} V${G-6} M${x-6} ${G} L${x} ${G-6} L${x+6} ${G}" ${S} stroke-width="2"/>`;
-    const t = `<text x="40" y="700" font-family="JetBrains Mono" font-size="20" fill="#777" letter-spacing="2">ВИСЯЧАЯ КРОВЛЯ · СТАЛЬНЫЕ ТРОСЫ · ТОКИО 1964</text>`;
+    const t = `<text x="40" y="700" font-family="JetBrains Mono" font-size="20" fill="${FAINT}" letter-spacing="2">ВИСЯЧАЯ КРОВЛЯ · СТАЛЬНЫЕ ТРОСЫ · ТОКИО 1964</text>`;
     return svg(1210, 770, b, t);
   },
 
@@ -248,7 +281,7 @@ const art = {
       return `<path d="M${x} ${y} l${d} -${d} h${s} l-${d} ${d} Z" fill="#eee" ${S} stroke-width="2"/>`+
              `<path d="M${x+s} ${y} l${d} -${d} v${s} l-${d} ${d} Z" fill="url(#hatchInk)" ${S} stroke-width="2"/>`+
              `<rect x="${x}" y="${y}" width="${s}" height="${s}" fill="${f}" ${S} stroke-width="2.5"/>`+
-             `<circle cx="${x+s/2}" cy="${y+s/2}" r="22" fill="${red?'#fff':'#fff'}" ${S} stroke-width="2.5"/>`+
+             `<circle cx="${x+s/2}" cy="${y+s/2}" r="22" fill="#fff" ${S} stroke-width="2.5"/>`+
              `<path d="M${x+s/2-22} ${y+s/2} H${x+s/2+22} M${x+s/2} ${y+s/2-22} V${y+s/2+22}" stroke="${INK}" stroke-width="1.2"/>`;
     };
     // cores
@@ -261,7 +294,6 @@ const art = {
       if (rnd() < 0.18) continue;
       out.push([col.x, y]);
     }
-    const redIdx = out.findIndex(([x,y]) => x === 824 && y > 300);
     out.sort((a,b2) => b2[1]-a[1] || a[0]-b2[0]);
     const red = out.filter(([x,y]) => x === 824 && y > 300).sort((a,c2)=>a[1]-c2[1])[0];
     for (const p of out) b += capsule(p[0], p[1], p === red);
@@ -269,7 +301,7 @@ const art = {
     // annotation to red capsule
     b += `<path d="M1000 330 C1060 320 1090 300 1110 260" stroke="${RED}" stroke-width="3" fill="none"/><path d="M1096 268 L1112 256 L1114 276" stroke="${RED}" stroke-width="3" fill="none"/>`;
     b += `<text x="1000" y="240" font-family="Neucha" font-size="44" fill="${RED}">В МУЗЕЙ</text>`;
-    const t = `<text x="40" y="745" font-family="JetBrains Mono" font-size="20" fill="#777" letter-spacing="2">140 КАПСУЛ · 2 СТВОЛА · ГИНДЗА 1972–2022</text>`;
+    const t = `<text x="40" y="745" font-family="JetBrains Mono" font-size="20" fill="${FAINT}" letter-spacing="2">140 КАПСУЛ · 2 СТВОЛА · ГИНДЗА 1972–2022</text>`;
     return svg(1210, 770, b, t);
   },
 
@@ -331,8 +363,8 @@ const art = {
     b += `<rect x="${jx+20}" y="${jy+70}" width="180" height="26" fill="url(#hatch)" ${S}/>`;
     b += `<rect x="${jx+20}" y="${jy+125}" width="180" height="26" fill="url(#hatch)" ${S}/>`;
     b += `<path d="M${jx+135} ${jy+60} l10 -12 M${jx+135} ${jy+115} l10 -12" ${S} stroke-width="2"/>`;
-    b += `<text x="${jx+12}" y="${jy+190}" font-family="JetBrains Mono" font-size="17" fill="#777">УЗЕЛ «НУКИ» 貫</text>`;
-    const t = `<text x="40" y="745" font-family="JetBrains Mono" font-size="20" fill="#777" letter-spacing="2">ДЕРЕВО · ≈2 КМ · ОСАКА 2025</text>`;
+    b += `<text x="${jx+12}" y="${jy+190}" font-family="JetBrains Mono" font-size="17" fill="${FAINT}">УЗЕЛ «НУКИ» 貫</text>`;
+    const t = `<text x="40" y="745" font-family="JetBrains Mono" font-size="20" fill="${FAINT}" letter-spacing="2">ДЕРЕВО · ≈2 КМ · ОСАКА 2025</text>`;
     return svg(1210, 770, b, t);
   },
 };
@@ -343,19 +375,22 @@ const load = src => new Promise(ok => { const i = new Image(); i.onload = () => 
 const find = async name => { for (const ext of ['jpg','jpeg','png','webp']) { const i = await load(`assets/photos/${name}.${ext}`); if (i) return i; } return null; };
 const credit = name => CREDITS[name] ? `ФОТО: ${CREDITS[name]}` : '';
 window.__ready = Promise.all([
+  // a missing static asset (e.g. vesper.png before it lands) renders as nothing, not as alt text
+  ...[...document.querySelectorAll('img[src]')].map(i => i.decode().catch(() => { i.style.visibility = 'hidden'; })),
   ...[...document.querySelectorAll('[data-art]')].map(async el => {
     const names = el.dataset.photo.split(',');
     const imgs = (await Promise.all(names.map(find))).filter(Boolean);
     if (!imgs.length) { el.innerHTML = art[el.dataset.art](); return; }
     el.innerHTML = '<div class="ph"></div>';
-    imgs.forEach(i => { if (el.dataset.pos) i.style.objectPosition = el.dataset.pos; el.firstChild.appendChild(i); });
+    const alt = el.closest('.slide').querySelector('.tag').textContent.replace(/\s+/g, ' ').trim();
+    imgs.forEach(i => { i.alt = alt; if (el.dataset.pos) i.style.objectPosition = el.dataset.pos; el.firstChild.appendChild(i); });
     const c = credit(names[0]); if (c) el.insertAdjacentHTML('beforeend', `<div class="credit">${c}</div>`);
   }),
   ...[...document.querySelectorAll('[data-portrait]')].map(async el => {
     const img = await find(el.dataset.portrait);
     if (!img) return;
-    el.src = img.src; el.closest('.slide').classList.add('has-portrait');
-    const c = credit(el.dataset.portrait); if (c) el.insertAdjacentHTML('afterend', `<div class="credit" style="left:auto;right:100px;top:584px;width:400px;white-space:normal;text-align:right;font-size:15px;position:absolute">${c}</div>`);
+    el.src = img.src; el.alt = el.closest('.slide').querySelector('.who b').textContent; el.closest('.slide').classList.add('has-portrait');
+    const c = credit(el.dataset.portrait); if (c) el.insertAdjacentHTML('afterend', `<div class="credit portrait-credit">${c}</div>`);
   }),
 ]);
 
@@ -376,8 +411,8 @@ window.__ready = Promise.all([
 (() => {
   const W = 1600, x = y => 40 + (y - 1800) / 226 * (W - 80);
   let b = `<path d="M${x(1800)} 200 H${x(2026)}" ${S} stroke-width="4"/><path d="M${x(2026)-14} 188 L${x(2026)} 200 L${x(2026)-14} 212" ${S} stroke-width="4"/>`;
-  for (let y = 1800; y <= 2020; y += 20) b += `<path d="M${x(y)} 190 V210" stroke="${INK}" stroke-width="2"/><text x="${x(y)}" y="250" text-anchor="middle" font-family="JetBrains Mono" font-size="22" fill="#777">${y}</text>`;
-  for (const y of [1853, 1868, 1877]) b += `<circle cx="${x(y)}" cy="200" r="9" fill="#fff" ${S}/><text x="${x(y)}" y="160" text-anchor="middle" font-family="JetBrains Mono" font-size="22" fill="#555">${y}</text>`;
+  for (let y = 1800; y <= 2020; y += 20) b += `<path d="M${x(y)} 190 V210" stroke="${INK}" stroke-width="2"/><text x="${x(y)}" y="250" text-anchor="middle" font-family="JetBrains Mono" font-size="22" fill="${FAINT}">${y}</text>`;
+  for (const y of [1853, 1868, 1877]) b += `<circle cx="${x(y)}" cy="200" r="9" fill="#fff" ${S}/><text x="${x(y)}" y="160" text-anchor="middle" font-family="JetBrains Mono" font-size="22" fill="${MUTED}">${y}</text>`;
   const pts = [[1914,'ТАЦУНО',0,'middle'],[1964,'ТАНГЭ',1,'end'],[1972,'КУРОКАВА',0,'middle'],[1989,'АНДО',1,'start'],[2025,'ФУДЗИМОТО',0,'end']];
   for (const [y, n, up, an] of pts) {
     const yy = up ? 60 : 330;
@@ -385,7 +420,7 @@ window.__ready = Promise.all([
     b += `<text x="${x(y)+(an==='end'?20:an==='start'?-20:0)}" y="${yy + (up?0:28)}" text-anchor="${an}" font-family="Neucha" font-size="52" fill="${RED}" stroke="${RED}" stroke-width="1">${n}</text>`;
     b += `<text x="${x(y)+(an==='end'?20:an==='start'?-20:0)}" y="${up ? yy+34 : yy+62}" text-anchor="${an}" font-family="JetBrains Mono" font-size="24" fill="${INK}">${y}</text>`;
   }
-  b += `<text x="${x(1800)}" y="330" font-family="Neucha" font-size="44" fill="#999">ЭДО · САКОКУ</text>`;
+  b += `<text x="${x(1800)}" y="330" font-family="Neucha" font-size="44" fill="${FAINT}">ЭДО · САКОКУ</text>`;
   document.getElementById('timeline').innerHTML = svg(W, 420, b);
 })();
 </script>
