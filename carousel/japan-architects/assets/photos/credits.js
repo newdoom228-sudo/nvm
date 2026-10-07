@@ -8,7 +8,7 @@ window.CREDITS = {
   "grand-ring":      "BEA PHI / CC BY-SA 4.0",
   "tatsuno":         "NDL JAPAN / PUBLIC DOMAIN",
   "tange":           "HANS VAN DIJK / ANEFO / CC BY-SA 3.0 NL",
-  "kurokawa":        "BIGJAP / CC0",
+  "kurokawa":        "MEXT JAPAN / CC BY 4.0",
   "ando":            "CHRISTOPHER SCHRINER / CC BY-SA 2.0",
   "fujimoto":        "J.TOBIAS / CC BY 2.0"
 };
